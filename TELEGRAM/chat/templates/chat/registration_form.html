@@ -1,0 +1,26 @@
+{% extends 'chat/MainPageNoAuurization.html' %}
+
+{% block form_login %}
+
+<div class="Registration_form_back">
+        <form method="post" id="form_premer" >
+    {% csrf_token %}
+
+<div>{{ form.non_field_errors }}</div>
+        <div class="Auten_name_form"> Registration </div>
+
+            {% for f in form %}
+             <p class="form_view"> <label >{{f.label}}: </label>  {{ f }}</p>
+            <div class="form-error">{{ f.errors }}</div>
+                {% endfor %}
+
+    <button type="submit" class="sign_in_login_form" >Войти</button>
+
+           <div class="restration_mame_a"> <a href="{% url 'login' %}" class="name_field_login_form">  Login </a> </div>
+           <div class="forget_password"> <a href="{% url 'forget_password' %}" class="name_field_login_form"> Forget password </a> </div>
+</form>
+
+</div>
+
+
+{% endblock form_login %}

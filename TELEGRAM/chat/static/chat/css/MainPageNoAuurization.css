@@ -1,0 +1,147 @@
+#shapka{
+    background-color: black;
+    width:100.9%;
+    height:160px;
+    margin-left: -8px;
+    margin-top: -10px;
+}
+
+#log_name{
+    color: white;
+    font-size: 70px;
+    word-spacing: 5rem;
+    text-align: -webkit-center;
+    padding-top:40px;
+    font-weight: bolder;
+}
+
+.button_home{
+    color: white;
+    font-size: 30px;
+    word-spacing: 5rem;
+    padding-left: 30px;
+    margin-top: -80px;
+    font-weight: bolder;
+}
+
+.button_login{
+    color: white;
+    font-size: 30px;
+    word-spacing: 5rem;
+    margin-left: 94%;
+    margin-top: -10px;
+    font-weight: bolder;
+    text-decoration: none;
+}
+
+.button_login:hover{
+    color: #f66d52;
+    text-decoration: underline;
+}
+
+
+.first_content{
+    margin-top: 100px;
+}
+
+.fisrt_content_table{
+    margin-top: 50px;
+}
+
+.text_first_table1{
+    font-size: 50px;
+}
+
+.text_first_table2{
+    font-size: 50px;
+}
+.table_granic{
+    margin-top: 150px;
+    font-size: 40px;
+    color:grey;
+}
+#images_phon_main{
+
+}
+
+.FormLoginMainPage{
+    width: 500px;
+    height: 500px;
+
+}
+.loginn_form_back{
+    position: absolute;
+    margin-top: -200px;
+    margin-left: 650px;
+    width: 400px;
+    height: 250px;
+    background: wheat;
+}
+
+.Auten_name_form{
+    font-size: 30px;
+    font-weight: bolder;
+    position: relative;
+    margin-left: 100px;
+}
+
+.sign_in_login_form{
+    margin-left: 170px;
+}
+
+.restration_mame_a{
+    position: relative;
+    margin-left: 300px;
+    margin-top: 10px;
+    height: 20px;
+    width: 50px;
+}
+
+.forget_password{
+    position: relative;
+    margin-top: -17px;
+    height: 20px;
+    width: 170px;
+}
+
+.name_field_login_form{
+    text-decoration: none;
+    color: black;
+}
+.name_field_login_form:hover{
+    color: #f66d52;
+    text-decoration: underline;
+}
+
+.Registration_form_back{
+    position: absolute;
+    margin-top: -200px;
+    margin-left: 650px;
+    width: 400px;
+    height: 300px;
+    background: wheat;
+}
+
+#form_premer{
+    width: 500px;
+    height: 600px;
+}
+
+.FormLoginMainPage2{
+    width: 500px;
+    height: 300px;
+}
+
+.loginn_form_back2{
+    position: absolute;
+    margin-top: -200px;
+    margin-left: 650px;
+    width: 400px;
+    height: 150px;
+    background: wheat;
+}
+
+.container-fluid{
+    position: absolute;
+
+ }

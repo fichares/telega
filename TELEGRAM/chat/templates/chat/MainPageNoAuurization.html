@@ -1,0 +1,44 @@
+{% load static %}
+{{ '<' }}{{ '!DOCTYPE html>' }}
+<html>
+<head>
+    <title>Main Page</title>
+    <meta charset="UTF-8">
+    <link type="text/css" href="{% static 'chat/css/MainPageNoAuurization.css' %}" rel="stylesheet">
+     <link rel="shortcut icon" href="{% static 'chat/images/phon_mainpage.png' %}" type="image/x-icon"/>
+
+</head>
+<body style="background-image: url({% static '/chat/images/phon_mainpage.png' %});">
+ {% block shapka %}
+ {% load bootstrap5 %}
+ {% bootstrap_css %}
+ {% bootstrap_javascript %}
+
+     <div id="shapka">
+         <div id = "log_name">NETWORKIN</div>
+         <div class="button_home">Home</div>
+
+         <a href="{% url 'login' %}" class="button_login"> Login</a>
+     </div>
+ {% endblock shapka %}
+
+ {% block content %}
+
+    <div id = "phon_main_page" >
+    <div class="table_granic">
+    <table class="first_content">
+        <tbody>
+        <tr class="fisrt_content_table">
+            <td class="text_first_table1"> Произведите революцию в социальной игре</td>
+            <td class="text_first_table1">Испытайте совершенно новый уровень социальных сетей, разработанных для современного Интернета.
+                <span>Откройте для себя функции, от которых вы будете в восторге, и оставайтесь на связи, как никогда раньше. </span></td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+    </div>
+ {% endblock content %}
+ {% block form_login %}
+ {% endblock form_login %}
+</body>
+</html>
