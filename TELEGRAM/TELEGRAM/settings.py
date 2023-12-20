@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'account',
     'chat',
     'user_app',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -88,7 +89,7 @@ WSGI_APPLICATION = 'TELEGRAM.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'telegan',
+        'NAME': 'TELEGRAMM',
         'USER': 'admin1',
         'PASSWORD': '1',
         'HOST': 'localhost',

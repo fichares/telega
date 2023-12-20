@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import User
+from .models import PushNotif, User
 
 class AdminPanel(admin.ModelAdmin):
     list_display = ["username", "id", "profile_picture", "DataCreateUser", "img_preview", "online"]
@@ -15,3 +15,5 @@ class AdminPanel(admin.ModelAdmin):
 
 
 admin.site.register(User, AdminPanel)
+
+admin.site.register(PushNotif)

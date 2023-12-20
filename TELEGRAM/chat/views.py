@@ -4,20 +4,21 @@ from django.contrib.auth import authenticate, get_user_model, login
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views.generic import CreateView, FormView, ListView, TemplateView, UpdateView
 from mail_templated import EmailMessage
 
-from chat.forms import ForgetPasswordUser, LoginForm, RegistrationForm
+from chat.forms import EnterMessageChat, ForgetPasswordUser, LoginForm, RegistrationForm
+from chat.models import Chat_Application, MessageUser
+from chat.utils import DataMixin
 from user_app.models import User
 
 message_not_found_email = 'The mail was not found.'
 message_sen_instructions_your_email = 'The instructions send your email.'
 current_site = '127.0.0.1:8000'                     ###
-
 
 class MainPageNoAuurization(TemplateView):
     template_name = 'chat/MainPageNoAuurization.html'
@@ -79,7 +80,7 @@ class ForgetPasswordUser(FormView):
             uid = urlsafe_base64_encode(force_bytes(current_user.pk))
             try:
                 print(current_site, uid, token)
-                message = EmailMessage('chat/reset_pasword_email.tpl', {'user': self.request.user, 'domain': current_site,'token': token, 'uid': uid}, settings.EMAIL_HOST_USER, [current_user.email])
+                message = EmailMessage('chat/reset_pasword_email.tpl', {'user': self.request.user, 'domain': current_site,'token': token, 'uid': uid, 'id': current_user.id}, settings.EMAIL_HOST_USER, [current_user.email])
                 message.send()
                 print('Good')
             except:
@@ -95,21 +96,59 @@ class ForgetPasswordUser(FormView):
 
 class RessetPassword(UpdateView):
     model = User
+    fields = ["password"]
     template_name = 'chat/update_password.html'
 
 
+    def get_object(self):
+        object = get_object_or_404(User, id=self.kwargs['idx'])
+        return object
+
+    def form_valid(self, form):
+        now_password = form.cleaned_data.get('password')
+        now_user = self.get_object()
+        print(now_user)
+        user = User.objects.get(id=self.kwargs['idx'])
+        user.password = now_password
+        user.save()
+     #   now_user.update(password=now_password)
+      #  authenticate(now_user, now_password)
+        return redirect('general_chat')
 
 
 
-
-
-class GeneralChatMixin(TemplateView):
+class GeneralChat(DataMixin, TemplateView, FormView):
     template_name = "chat/GENERAL_chat.html"
+    form_class = EnterMessageChat
 
     def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+
+        name_chat = Chat_Application.objects.get(name_chat='General Chat')
+        print(name_chat)
+        messagge_chat = MessageUser.objects.filter(chat_it_is=name_chat)
+        data['messages'] = messagge_chat
+
+        for e in messagge_chat:
+           print(e.text)
+
         current_user = User.objects.get(username='admin')
-        current_user.quotation = 'edadsad'
         print(current_user.quotation)
+
+        return data
+
+    def get_data_to_templates(self ):
+        pass
+
+    def form_valid(self, form):
+        pass #self.request.user
+
+def LogoutUsersFromSistem(request):
+    pass
+
+
+class FeedbackWithAdmin(CreateView):
+    pass
 
 
 
