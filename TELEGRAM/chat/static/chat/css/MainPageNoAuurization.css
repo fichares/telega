@@ -239,7 +239,7 @@ html, body {
     font-size: 24px;
 }
 
-.MainContentGeneralChat{
+#MainContentGeneralChat{
     position: absolute;
     margin-top: 6%;
     margin-left: 30%;
@@ -274,16 +274,37 @@ html, body {
     overflow-x: hidden;
 }
 
-.view_message_in_chat{
+#view_message_in_chat {
     position: absolute;
     width: 100%;
     height: 89.9%;
     overflow-x: hidden;
-
-
 }
+
+#chat-log{
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    width: 50px;
+    height: 50px;
+}
+
+
 .view_message_in_block{
 
+}
+
+#chat-message-input{
+    width: 270%;
+    height: 40px;
+
+}
+
+#chat-message-submit{
+    position: relative;
+    left: 290%;
+    top: -45px;
+    height: 55px;
 }
 
 .photo_user_message{

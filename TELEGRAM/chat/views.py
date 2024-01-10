@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, get_user_model, login
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes
@@ -113,7 +114,7 @@ class RessetPassword(UpdateView):
         user.save()
      #   now_user.update(password=now_password)
       #  authenticate(now_user, now_password)
-        return redirect('general_chat')
+        return redirect('general_chat', room_name='general_chat')
 
 
 
@@ -125,23 +126,25 @@ class GeneralChat(DataMixin, TemplateView, FormView):
         data = super().get_context_data(**kwargs)
 
         name_chat = Chat_Application.objects.get(name_chat='General Chat')
-        print(name_chat)
-        messagge_chat = MessageUser.objects.filter(chat_it_is=name_chat)
+        messagge_chat = MessageUser.objects.filter(chat_it_is=name_chat).order_by('data_create')
         data['messages'] = messagge_chat
-
-        for e in messagge_chat:
-           print(e.text)
-
+        data['room_name'] = "general_chat"
         current_user = User.objects.get(username='admin')
-        print(current_user.quotation)
-
+        print('1')
         return data
 
     def get_data_to_templates(self ):
         pass
 
     def form_valid(self, form):
-        pass #self.request.user
+        message  = form.cleaned_data['enter_chat']
+        chat_name =  self.kwargs['room_name']
+        if chat_name == 'general_chat':
+            chat_name = 'General Chat'
+        chat = Chat_Application.objects.get(name_chat=chat_name)
+        MessageUser.objects.create(text=message, users_send=self.request.user, chat_it_is=chat)
+        print(form.cleaned_data)
+        return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
 
 def LogoutUsersFromSistem(request):
     pass

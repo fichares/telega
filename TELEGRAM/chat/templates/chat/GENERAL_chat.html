@@ -27,7 +27,7 @@
                 <div class="Logout_User_System">  <a href="{% url 'logout' %}" class="text_menu_vverx_tt"> {{e.title}} </a>  </div>
 
                 {% elif e.title == "name_company" %}
-                <div class="Reference_General_chat">  <a href="{% url 'general_chat' %}" class="text_menu_vverx_tt"> {{e.url_name}} </a>  </div>
+                <div class="Reference_General_chat">  <a href="{% url 'general_chat' room_name='general_chat' %}" class="text_menu_vverx_tt"> {{e.url_name}} </a>  </div>
 
               {% endif %}}
             {% endfor %}}
@@ -53,9 +53,9 @@
 
         {% block content%}
             <div style="position: absolute;margin-top: 4%; margin-left: 43%;font-size: 30px;"> General Chat</div>
-        <div class="MainContentGeneralChat">
+        <div id="MainContentGeneralChat">
 
-        <div class="view_message_in_chat">
+        <div id="view_message_in_chat">
 
 
             {% for message in messages %}
@@ -75,6 +75,7 @@
         </div>
 
             {% endfor %}
+
             <div id="wrapper_Scrollbottom"></div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -90,26 +91,88 @@
 
 
 
-            <form method="post" class="EnterMessageGeneralChat" >
+            <div class="EnterMessageGeneralChat" >
 
-    {% csrf_token %}
+                    <input id="chat-message-input" type="text" placeholder="Enter message"><br>
+                    <input id="chat-message-submit" type="button" value="Send">
+</div>
 
-<div>{{ form.non_field_errors }}</div>
-{% for f in form %}
-<div class="pole_input_message">{{ f }}</div>
-<div class="form-error">{{ f.errors }}</div>
-{% endfor %}
-
-    <button type="submit"  class="submit_input_message" id="input_new_message_in_database">
-        <a> <img src="/media/submit-send.png" style="width: 40px; height: 40px;"> </a>
-    </button>
-
-</form>
 
         </div>
 
         {% endblock content%}
 
+
+        <textarea id="chat-log" disabled="yes"></textarea><br>
+
+         {{ room_name|json_script:"room-name" }}
+    <script>
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chats/'
+            + roomName
+            + '/'
+        );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            //console.log(data.message)
+            // $("#MainContentGeneralChat").load(" #MainContentGeneralChat > *");
+
+            document.querySelector('#chat-log').value += (data.message + '\n');
+            document.querySelector('#chat-log').value += (data.cur_user + '\n');
+
+            var element = document.createElement("div");
+            element.id = 'message_wb' + String(data.message)
+            console.log(element.id)
+            document.getElementById('view_message_in_chat').appendChild(element);
+
+            var name_user = document.createElement("div");
+            name_user.appendChild(document.createTextNode(data.cur_user));
+            document.getElementById(element.id).appendChild(name_user);
+
+            var message_now = document.createElement("div");
+            message_now.appendChild(document.createTextNode(data.message));
+            document.getElementById(element.id).appendChild(message_now);
+
+            var time_message_now = document.createElement("div");
+            time_message_now.appendChild(document.createTextNode(data.now_time));
+            document.getElementById(element.id).appendChild(time_message_now);
+
+            var img = document.createElement("img");
+
+            img.src = data.photo
+            document.getElementById(element.id).appendChild(img);
+
+
+
+
+
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.key === 'Enter') {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+            messageInputDom.value = '';
+        };
+    </script>
 
 
 
