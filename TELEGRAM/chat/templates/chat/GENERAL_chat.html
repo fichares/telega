@@ -80,9 +80,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
           <script>
-            $('div.view_message_in_chat').animate({
-                   scrollTop: parseInt($('#wrapper_Scrollbottom').offset().top)
-                 }, 0.1);
+            var block = document.getElementById("view_message_in_chat");
+            block.scrollTop = block.scrollHeight;
           </script>
         </div>
 
@@ -103,7 +102,7 @@
         {% endblock content%}
 
 
-        <textarea id="chat-log" disabled="yes"></textarea><br>
+
 
          {{ room_name|json_script:"room-name" }}
     <script>
@@ -122,30 +121,51 @@
             //console.log(data.message)
             // $("#MainContentGeneralChat").load(" #MainContentGeneralChat > *");
 
-            document.querySelector('#chat-log').value += (data.message + '\n');
-            document.querySelector('#chat-log').value += (data.cur_user + '\n');
-
             var element = document.createElement("div");
             element.id = 'message_wb' + String(data.message)
-            console.log(element.id)
             document.getElementById('view_message_in_chat').appendChild(element);
 
-            var name_user = document.createElement("div");
+            var img = document.createElement("img");
+            img.style.height = '45px';
+            img.style.marginLeft = '3.9%';
+            img.src = data.photo
+            document.getElementById(element.id).appendChild(img);
+
+            var name_user = document.createElement("span");
+            name_user.style.fontSize = '20px';
+            name_user.style.position = "absolute";
+            name_user.style.paddingLeft = '5%';
+            name_user.style.paddingTop = '-40px';
+
             name_user.appendChild(document.createTextNode(data.cur_user));
             document.getElementById(element.id).appendChild(name_user);
 
-            var message_now = document.createElement("div");
-            message_now.appendChild(document.createTextNode(data.message));
-            document.getElementById(element.id).appendChild(message_now);
-
-            var time_message_now = document.createElement("div");
+            var time_message_now = document.createElement("span");
+            time_message_now.style.fontSize = '12px';
+            time_message_now.style.position = "absolute";
+            time_message_now.style.paddingLeft = '15%';
+            time_message_now.style.paddingTop = '1%';
+            time_message_now.style.color = 'grey';
             time_message_now.appendChild(document.createTextNode(data.now_time));
             document.getElementById(element.id).appendChild(time_message_now);
 
-            var img = document.createElement("img");
 
-            img.src = data.photo
-            document.getElementById(element.id).appendChild(img);
+
+            var message_now = document.createElement("span");
+            message_now.style.position = "absolute";
+            message_now.style.paddingLeft = '5%';
+            message_now.style.paddingTop = '5%';
+            message_now.appendChild(document.createTextNode(data.message));
+            document.getElementById(element.id).appendChild(message_now);
+
+
+
+
+
+
+            var block = document.getElementById("view_message_in_chat");
+             block.scrollTop = block.scrollHeight;
+
 
 
 
