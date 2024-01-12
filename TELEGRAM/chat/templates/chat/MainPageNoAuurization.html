@@ -40,29 +40,5 @@
  {% endblock content %}
  {% block form_login %}
  {% endblock form_login %}
-
-        <script>
-        const chatSocket = new WebSocket(
-            'ws://' + window.location.host + '/ws/chat/'
-        );
-
-        chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
-        };
-
-        chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
-        };
-
-        function sendMessage() {
-            const messageInput = document.querySelector('#chat-message');
-            const message = messageInput.value;
-            chatSocket.send(JSON.stringify({
-                'message': message
-            }));
-            messageInput.value = '';
-        }
-    </script>
 </body>
 </html>

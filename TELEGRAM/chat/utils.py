@@ -11,7 +11,7 @@ shapka_for_chat_verx =  [
 menu_for_chat_verx =  [
         {'title': "Profile", 'url_name': 'profile'},
         {'title': "Friends", 'url_name': 'friends'},
-        {'title': "Chats", 'url_name': 'chats'},
+        {'title': "Chats", 'url_name': 'my_chats'},
         {'title': "Photo", 'url_name': 'photo'},
         {'title': "Files", 'url_name': 'files'},
         {'title': "Reminder", 'url_name': 'reminder'},

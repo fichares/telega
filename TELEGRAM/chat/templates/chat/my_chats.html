@@ -1,0 +1,53 @@
+{% extends 'chat/GENERAL_chat.html' %}
+
+{% block content %}
+            <p id="name_page_my_chat__"> My chats</p>
+
+        <div id="menu_chat_user">
+
+
+
+                {% for y in message_chats %}
+            <a id="views_chats_with_last_message_reference" href="{% url 'my_chats'  %}">
+            <div id="views_chats_with_last_message">
+
+                    <div id="avatarka_chats_view">
+                        <img id ="avatarka_view_chat" src="{{  y.chat_it_is.picture.url }}">
+                    </div>
+
+                    <div id="name_chats_view">
+                        {{ y.chat_it_is }}
+                    </div>
+
+                    <div id="message_chats_view">
+                        {{ y.text }}
+                    </div>
+
+                    <div id="avatarka_user_last_message">
+                        <img id ="avatarka_user_view_chat" src="{{ y.users_send.profile_picture.url }}">
+                    </div>
+
+
+
+                    <div id="last_message_in_current_chat">
+                        {% if  y.data_create  == now_time  %}
+                            <div class="time_messageA_last_in_chat">today</div>
+                        {% else %}
+                        <div class="time_messageA_last_in_chat">{{ y.data_create | date:"D d M Y" }}</div>
+                        {% endif %}
+
+
+                    </div>
+
+
+            </div>
+                </a>
+                    <hr>
+            {% endfor %}
+
+
+
+
+        </div>
+
+{% endblock content %}

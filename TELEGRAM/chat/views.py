@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, get_user_model, login
@@ -13,7 +15,7 @@ from django.views.generic import CreateView, FormView, ListView, TemplateView, U
 from mail_templated import EmailMessage
 
 from chat.forms import EnterMessageChat, ForgetPasswordUser, LoginForm, RegistrationForm
-from chat.models import Chat_Application, MessageUser
+from chat.models import Chat_Application, MessageUser, Users_Chat
 from chat.utils import DataMixin
 from user_app.models import User
 
@@ -39,7 +41,7 @@ def login_user(request):
                 user.online = True
                 user.save()
                 login(request, user)
-                return redirect("general_chat")
+                return redirect("general_chat", room_name='general_chat')
             else:
                 messages.error(request, 'Check your login details and try again',
                                extra_tags='alert alert-danger alert-dismissible fade show'
@@ -59,7 +61,7 @@ def register_user(request):
             messages.success(request, 'Registration was successful',
                              extra_tags='alert alert-success alert-dismissible fade show'
                             )
-            return redirect('general_chat')
+            return redirect('general_chat', room_name='general_chat')
     else:
         form = RegistrationForm()
     return render(request, 'chat/registration_form.html', {'form': form})
@@ -128,7 +130,7 @@ class GeneralChat(DataMixin, TemplateView, FormView):
         name_chat = Chat_Application.objects.get(name_chat='General Chat')
         messagge_chat = MessageUser.objects.filter(chat_it_is=name_chat).order_by('data_create')
         data['messages'] = messagge_chat
-        data['room_name'] = "general_chat"
+        data['room_name'] = "general-chat"
         current_user = User.objects.get(username='admin')
         print('1')
         return data
@@ -145,6 +147,25 @@ class GeneralChat(DataMixin, TemplateView, FormView):
         MessageUser.objects.create(text=message, users_send=self.request.user, chat_it_is=chat)
         print(form.cleaned_data)
         return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
+
+
+class My_chat(DataMixin, TemplateView):
+    template_name = 'chat/my_chats.html'
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        user_chats = Users_Chat.objects.filter(users=self.request.user)
+        message_chats = []
+        for e in user_chats:
+            message_chats.append(MessageUser.objects.filter(chat_it_is=e.chat).last())
+        print(user_chats)
+        print(message_chats)
+        data['user_chats'] = user_chats
+        data['message_chats'] = message_chats
+        data['now_time'] = datetime.now()
+        # last_messages_chats =
+        return data
+
 
 def LogoutUsersFromSistem(request):
     pass

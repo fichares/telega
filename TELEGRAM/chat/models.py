@@ -12,12 +12,19 @@ class Chat_Application(models.Model):
     creator_chat = models.ForeignKey(User, on_delete=models.PROTECT)
     data_time_create = models.DateTimeField(auto_now=True)
     count_message = models.IntegerField('count message')
+    picture = models.ImageField("chat's avatarka", default="default_pictrute-chat.png", upload_to="static/chat/images/avatarki_chat/")
+    slug = models.SlugField(default="test")
+
+    def save(self, *args, **kwargs):
+        from django.template.defaultfilters import slugify
+        self.slug = slugify(self.name_chat)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name_chat
 
 class Users_Chat(models.Model):
-    users = models.OneToOneField(User, on_delete=models.PROTECT)
+    users = models.ForeignKey(User, on_delete=models.PROTECT)
     chat = models.ForeignKey(Chat_Application, on_delete=models.PROTECT)
 
 class MessageUser(models.Model):
