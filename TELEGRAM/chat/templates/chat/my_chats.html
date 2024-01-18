@@ -68,8 +68,9 @@
         // Listen to the message event, which contains the data received from the server
         socket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            console.log(e)
-            console.log("Message from the server:");
+            console.log(data.now_time)
+            console.log(data.message);
+            console.log(data.cur_user);
         };
 
         // Listen to the close event, which indicates the connection is closed

@@ -106,12 +106,13 @@ class View_last_message_in_chats(AsyncWebsocketConsumer):
         SLUG_chat = event["name_chat"]
         if self.Have_user_this_chat(SLUG_chat):
             message = event["message"]
+            cur_user = event["cur_user"]
             photo = event["photo"]
             now_time = event["now_time"]
             print(message)
             print(SLUG_chat)
         # Send message to WebSocket
-        #await self.send(text_data=json.dumps({"message": message, "cur_user": cur_user, "photo": photo, "now_time": now_time}))
+            await self.send(text_data=json.dumps({"message": message, "cur_user": cur_user, "photo": photo, "now_time": now_time}))
 
     @database_sync_to_async
     def Have_user_this_chat(self, slug_chat):
