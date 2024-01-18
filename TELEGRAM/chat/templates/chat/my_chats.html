@@ -57,15 +57,19 @@
         socket.onopen = () => {
           console.log("WebSocket connection opened");
           // Send a message to the server
-          socket.send("Hello from the browser!");
+          socket.send(JSON.stringify({
+                'message': message
+            }));
 
 
 
         };
 
         // Listen to the message event, which contains the data received from the server
-        socket.onmessage = (event) => {
-          console.log("Message from the server:");
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            console.log(e)
+            console.log("Message from the server:");
         };
 
         // Listen to the close event, which indicates the connection is closed

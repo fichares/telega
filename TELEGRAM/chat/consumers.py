@@ -52,10 +52,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         cur_user, photo, now_time = await self.get_data_user()
         #print(message)
         # Send message to WebSocket
-        await channel_layer.group_send(
-            all_users_use_page_my_chat,
-            {"type": "on.message", "message": message, "cur_user": cur_user, "photo": photo, "now_time": now_time},
-        )
+#        await channel_layer.group_send(
+#            all_users_use_page_my_chat,
+#            {"type": "on.message", "message": message, "cur_user": cur_user, "photo": photo, "now_time": now_time},
+#        )
 
         await self.send(text_data=json.dumps({"message": message, "cur_user": cur_user, "photo": photo, "now_time": now_time}))
 
@@ -86,16 +86,16 @@ class View_last_message_in_chats(AsyncWebsocketConsumer):
 
         await self.channel_layer.group_add(self.room_name, self.channel_name)
         await self.accept()
-        print(self.room_name, self.channel_name)
 
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(self.room_name, self.channel_name)
 
 
     async def receive(self, text_data):
-        #text_data_json = json.loads(text_data)
+        text_data_json = json.loads(text_data)
 
-        print(self.user)
+        print(text_data_json)
+        print(text_data_json['message'])
 
         #await self.save_message_in_bd(message=message, user=self.user, chat=chat)
 
