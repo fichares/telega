@@ -381,7 +381,8 @@ html, body {
     text-decoration: none;
 }
 
-#views_chats_with_last_message_reference:focus{
+#views_chats_with_last_message_reference:hover{
+    background-color: grey;
     color: grey;
 }
 

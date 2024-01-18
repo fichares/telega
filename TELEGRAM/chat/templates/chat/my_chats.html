@@ -8,7 +8,7 @@
 
 
                 {% for y in message_chats %}
-            <a id="views_chats_with_last_message_reference" href="{% url 'my_chats'  %}">
+            <a id="views_chats_with_last_message_reference" href="{% url 'general_chat' y.chat_it_is.slug %}">
             <div id="views_chats_with_last_message">
 
                     <div id="avatarka_chats_view">
@@ -45,9 +45,39 @@
                     <hr>
             {% endfor %}
 
-
-
-
         </div>
+
+        <script>
+                // Create a WebSocket object with the server URL
+        const socket = new WebSocket(
+            'ws://127.0.0.1:9000/my_chats'
+        );
+
+        // Listen to the open event, which indicates the connection is established
+        socket.onopen = () => {
+          console.log("WebSocket connection opened");
+          // Send a message to the server
+          socket.send("Hello from the browser!");
+
+
+
+        };
+
+        // Listen to the message event, which contains the data received from the server
+        socket.onmessage = (event) => {
+          console.log("Message from the server:");
+        };
+
+        // Listen to the close event, which indicates the connection is closed
+        socket.onclose = (event) => {
+          console.log("WebSocket connection closed");
+          var paramsString = document.location.search;
+          console.log(window.location);
+        };
+
+        // Listen to the error event, which indicates there is an error with the connection
+
+
+        </script>
 
 {% endblock content %}

@@ -34,3 +34,8 @@ class MessageUser(models.Model):
     chat_it_is = models.ForeignKey(Chat_Application, on_delete=models.CASCADE)
     data_create = models.DateTimeField(auto_now=True)
     status_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.chat_it_is ) + ' ' + str(self.text)
+
+

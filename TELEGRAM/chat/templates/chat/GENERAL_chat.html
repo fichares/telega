@@ -2,7 +2,7 @@
 {{ '<' }}{{ '!DOCTYPE html>' }}
 <html>
 <head>
-    <title>General Chat</title>
+    <title>{{chat}}</title>
     <meta charset="UTF-8">
     <link type="text/css" href="{% static 'chat/css/MainPageNoAuurization.css' %}" rel="stylesheet">
      <link rel="shortcut icon" href="{% static 'chat/images/phon_mainpage.png' %}" type="image/x-icon"/>
@@ -52,7 +52,7 @@
         {% endblock left-menu %}
 
         {% block content%}
-            <div style="position: absolute;margin-top: 4%; margin-left: 43%;font-size: 30px;"> General Chat</div>
+            <div style="position: absolute;margin-top: 4%; margin-left: 43%;font-size: 30px;"> {{name_chat}}</div>
         <div id="MainContentGeneralChat">
 
         <div id="view_message_in_chat">
@@ -115,6 +115,11 @@
             + roomName
             + '/'
         );
+
+        chatSocket.onopen = () => {
+          console.log(window.location);
+        };
+
 
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);

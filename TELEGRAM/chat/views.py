@@ -126,12 +126,12 @@ class GeneralChat(DataMixin, TemplateView, FormView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-
-        name_chat = Chat_Application.objects.get(name_chat='General Chat')
+        data['room_name'] = self.kwargs['room_name']  # "general_chat"
+        name_chat = Chat_Application.objects.get(slug=data['room_name'])
         messagge_chat = MessageUser.objects.filter(chat_it_is=name_chat).order_by('data_create')
         data['messages'] = messagge_chat
-        data['room_name'] = "general-chat"
-        current_user = User.objects.get(username='admin')
+        data['name_chat'] = name_chat.name_chat
+
         print('1')
         return data
 
@@ -157,9 +157,7 @@ class My_chat(DataMixin, TemplateView):
         user_chats = Users_Chat.objects.filter(users=self.request.user)
         message_chats = []
         for e in user_chats:
-            message_chats.append(MessageUser.objects.filter(chat_it_is=e.chat).last())
-        print(user_chats)
-        print(message_chats)
+            message_chats.append(MessageUser.objects.filter(chat_it_is=e.chat).latest('data_create'))
         data['user_chats'] = user_chats
         data['message_chats'] = message_chats
         data['now_time'] = datetime.now()
